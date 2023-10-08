@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import businessman from "../../img/businessman.jpeg";
+import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
+
+// components
+import Confirm from "../views/Confirm.jsx";
 
 const Card = (props) => {
+  const { actions } = useContext(Context);
   const { person } = props;
-  const { full_name, address, phone, email } = person;
+  const { full_name, address, phone, email, id } = person;
 
   return (
     <div className="card mb-3 col-12 w-80">
@@ -41,8 +47,12 @@ const Card = (props) => {
         </div>
         <div className="col-md-2 card-buttons d-flex justify-content-around pt-3">
           <span>
-            <i className="fas fa-pencil-alt border border-secondary rounded-circle p-2 me-2"></i>
-            <i className="fas fa-trash border border-secondary rounded-circle p-2 me-2"></i>
+            <link to="/contact-form">
+              <i className="fas fa-pencil-alt border border-secondary rounded-circle p-2 me-2"></i>
+            </link>
+            <Link to="/confirm">
+              <i className="fas fa-trash border border-secondary rounded-circle p-2 me-2"></i>
+            </Link>
           </span>
         </div>
       </div>
