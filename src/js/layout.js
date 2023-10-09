@@ -4,12 +4,9 @@ import injectContext from "./store/appContext";
 
 // components
 import ScrollToTop from "./component/scrollToTop";
-import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
-import { Home } from "./views/home.jsx";
-import { Demo } from "./views/demo";
-import { Single } from "./views/single";
-import Confirm from "./views/Confirm.jsx";
+import { Home } from "./views/Home.jsx";
+import ContactForm from "./views/ContactForm.jsx";
+import UpdateContact from "./views/UpdateContact.jsx";
 
 //create your first component
 const Layout = () => {
@@ -21,15 +18,12 @@ const Layout = () => {
     <div>
       <BrowserRouter basename={basename}>
         <ScrollToTop>
-          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/demo" element={<Demo />} />
-            <Route path="/single/:theid" element={<Single />} />
-            <Route path="/confirm" element={<Confirm />} />
+            <Route path="/contactform" element={<ContactForm />} />
+            <Route path="/updatecontact/:id" element={<UpdateContact />} />
             <Route path="*" element={<h1>Not found!</h1>} />
           </Routes>
-          <Footer />
         </ScrollToTop>
       </BrowserRouter>
     </div>

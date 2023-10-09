@@ -4,13 +4,13 @@ import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
 // components
-import Confirm from "../views/Confirm.jsx";
+// import Confirm from "../views/Confirm.jsx";
 
 const Card = (props) => {
-  const { actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const { person } = props;
   const { full_name, address, phone, email, id } = person;
-
+  console.log(id);
   return (
     <div className="card mb-3 col-12 w-80">
       <div className="row g-0">
@@ -47,12 +47,14 @@ const Card = (props) => {
         </div>
         <div className="col-md-2 card-buttons d-flex justify-content-around pt-3">
           <span>
-            <link to="/contact-form">
+            <Link to={`/updatecontact/${id}`}>
               <i className="fas fa-pencil-alt border border-secondary rounded-circle p-2 me-2"></i>
-            </link>
-            <Link to="/confirm">
-              <i className="fas fa-trash border border-secondary rounded-circle p-2 me-2"></i>
             </Link>
+            <i
+              className="fas fa-trash border border-secondary rounded-circle p-2 me-2"
+              style={{ color: "#1c71d8" }}
+              onClick={() => actions.deleteContact(id)}
+            ></i>
           </span>
         </div>
       </div>

@@ -1,11 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const ContactForm = () => {
-  const { actions } = useContext(Context);
+const UpdateContact = () => {
+  const { store, actions } = useContext(Context);
+  const { id } = useParams();
 
-  const [contact, setContact] = useState({
+  const [updateContact, setUpdateContact] = useState({
     full_name: "",
     address: "",
     phone: "",
@@ -13,21 +15,33 @@ const ContactForm = () => {
     agenda_slug: "phantom",
   });
 
+  const findContact = () => {
+    let result = store.contact.find((item) => item.id == id);
+    setUpdateContact(result);
+  };
+
   const handleChange = (event) => {
-    setContact({ ...contact, [event.target.name]: event.target.value });
+    setUpdateContact({
+      ...updateContact,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    actions.addContact(contact);
+    actions.updateContact(id, updateContact);
   };
+
+  useEffect(() => {
+    findContact();
+  }, [store.contact]);
 
   return (
     <>
       <div className="container">
         <div className="row justify-content-center border border-secondary mt-4 p-2 rounded-3">
           <div className="col-12 col-md-8">
-            <h1 className="text-center">Add a new contact</h1>
+            <h1 className="text-center">Update contact</h1>
             <form onSubmit={handleSubmit} autoComplete="off">
               <div className="mb-3">
                 <label className="form-label">Full Name</label>
@@ -36,7 +50,7 @@ const ContactForm = () => {
                   className="form-control"
                   placeholder="full name"
                   name="full_name"
-                  value={contact.full_name}
+                  value={updateContact?.full_name}
                   onChange={handleChange}
                 />
 
@@ -46,7 +60,7 @@ const ContactForm = () => {
                   className="form-control"
                   placeholder="Enter email"
                   name="email"
-                  value={contact.email}
+                  value={updateContact?.email}
                   onChange={handleChange}
                 />
 
@@ -56,7 +70,7 @@ const ContactForm = () => {
                   className="form-control"
                   placeholder="Enter phone"
                   name="phone"
-                  value={contact.phone}
+                  value={updateContact?.phone}
                   onChange={handleChange}
                 />
 
@@ -66,7 +80,7 @@ const ContactForm = () => {
                   className="form-control"
                   placeholder="Enter address"
                   name="address"
-                  value={contact.address}
+                  value={updateContact?.address}
                   onChange={handleChange}
                 />
                 <div className="d-grid gap-2">
@@ -84,4 +98,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default UpdateContact;
