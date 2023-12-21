@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const UpdateContact = () => {
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const [updateContact, setUpdateContact] = useState({
@@ -29,7 +30,12 @@ const UpdateContact = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    actions.updateContact(id, updateContact);
+    try {
+      actions.updateContact(id, updateContact);
+      navigate("/")      
+    } catch (error) {
+      console.log("Error to update contact", error);
+    }
   };
 
   useEffect(() => {

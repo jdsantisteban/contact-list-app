@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const ContactForm = () => {
   const { actions } = useContext(Context);
-
+  const navigate = useNavigate();
+  
   const [contact, setContact] = useState({
     full_name: "",
     address: "",
@@ -12,14 +13,20 @@ const ContactForm = () => {
     email: "",
     agenda_slug: "phantom",
   });
-
+  
   const handleChange = (event) => {
     setContact({ ...contact, [event.target.name]: event.target.value });
   };
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
-    actions.addContact(contact);
+
+    try {
+      actions.addContact(contact);
+      navigate("/");
+    } catch (error) {
+      console.error("Error to add a new contact", error);
+    }
   };
 
   return (
